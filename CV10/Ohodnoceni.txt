@@ -1,0 +1,24 @@
+Dobrý den, 
+posílám hodnocení úloh ze cvičení 10: 1+1.75+1.75
+1) OK
+2) Když už jste se rozhodl v metodě printAllStartingWith rozhodl použít zbytečný ArrayList, měl jste to udělat bez té kontroly, jestli ArrayList již prvek neobsahuje. Prvky v BST jsou unikátní, takže duplicita tam být nemůže, pokud tam neuděláte chybu. Navíc si musíte uvědomit, že zjistit, jestli ArrayList něco neobsahuje, znamená ho celý projít. Navíc bohužel metoda printAllStartingWith nefunguje správně, při hlubším stromu narazíte na problém, kdy nestačí projít pouze jednou cestou a to, že se snažíte si v proměnné save zapamatovat, kam se máte ještě podívat, nestačí. V principu je třeba řešit rekurzivně, nebo pomocí přepisu rekurze. 
+
+BinarySearchTree bst = new BinarySearchTree();
+bst.add("abh");
+bst.add("abd");
+bst.add("abl");
+bst.add("abb");
+bst.add("abf");
+bst.add("abj");
+bst.add("abn");
+bst.add("aba");
+bst.add("abc");
+bst.add("abe");
+bst.add("abg");
+bst.add("abi");
+bst.add("abk");
+bst.add("abm");
+bst.add("abo");
+bst.printAllStartingWith("ab");
+
+3) V metodě remove chybí snížení počtu uzlů. Výsledky vlivem chyby  z druhé úlohy nejsou správné.

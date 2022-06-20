@@ -1,0 +1,186 @@
+/**
+ * Prvek spojoveho seznamu
+ * @author Libor Vasa
+ */
+class Link {
+    /** Data prvku - jeden znak */
+    char data;
+    /** Dalsi prvek spojoveho seznamu */
+    Link next;
+}
+/**
+ * Spojovy seznam znaku
+ * @author Libor Vasa
+ */
+class LinkList {
+    /** Prvni prvek seznamu */
+    Link first;
+
+    public static void main(String[] args) throws Exception {
+        LinkList myList = new LinkList();
+        MyIterator myIterator = new MyIterator(myList);
+        myIterator.insert('a');
+        myIterator.insert('k');
+        myIterator.insert('l');
+        myIterator.next();
+        myIterator.insert('a');
+        myIterator.next();
+        myIterator.insert('s');
+
+        printList(myList);
+
+        myIterator.moveToFirst();
+        myIterator.insert('v');
+        myIterator.insert('i');
+        myIterator.insert('p');
+        myIterator.next();
+        myIterator.next();
+        myIterator.next();
+        myIterator.remove();
+        myIterator.remove();
+        myIterator.remove();
+        myIterator.remove();
+        myIterator.insert('o');
+        myIterator.next();
+        myIterator.remove();
+
+        printList(myList);
+    }
+    static void printList(LinkList myList) throws Exception {
+        MyIterator pomocny = new MyIterator(myList);
+        while (pomocny.hasNext()) {
+            System.out.print(pomocny.get());
+            pomocny.next();
+        }
+        System.out.println();
+    }
+}
+
+class MyIterator{
+
+    Link current;
+    Link first;
+    LinkList list;
+
+    public MyIterator(LinkList list){
+        this.list = list;
+        this.current = null;
+    }
+
+    void printList(LinkList myList) throws Exception {
+        MyIterator pomocny = new MyIterator(myList);
+        while (pomocny.hasNext()) {
+            System.out.print(pomocny.get());
+            pomocny.next();
+        }
+        System.out.println();
+    }
+
+    /**
+     * Vlozi novy znak do seznamu
+     * @param letter znak, ktery se vlozi do seznamu
+     */
+    void insert(char letter) throws Exception {
+        Link newLink = new Link();
+        newLink.data = letter;
+        if (current == null) {
+            newLink.next = list.first;
+            list.first = newLink;
+        }
+        else {
+            newLink.next = current.next; //Potřeba prohodit řádky aby se nově vložený prvek dal napravo
+            current.next = newLink;      // Prohodit s tímto řádkem
+        }
+        printList(list);
+    }
+
+
+    /**
+     * Posune aktualni prvek na dalsi v seznamu
+     * @throws Exception pokud zadny dalsi prvek neni
+     */
+    void next() throws Exception {
+        if (list.first == null) {
+            throw new Exception();
+        }
+        if (current == null) {
+            current = list.first;
+        }
+        else {
+            current = current.next;
+            if (current == null) {
+                throw new Exception();
+            }
+        }
+    }
+
+    /**
+     * Vrati znak v aktualnim prvku seznamu
+     * @return znak v aktualnim prvku seznamu
+     */
+    char get() throws Exception {
+        //chyběla signatura "throws Exception, aby metoda mohla vyhazovat Exception
+        if (list.first == null) {
+            throw new Exception();
+        }
+        if (current == null) {
+            return list.first.data;
+        }
+        if (current.next != null) {
+            return current.next.data;
+        }
+        else {
+            throw new Exception();
+        }
+    }
+
+    /**
+     * Zmeni aktualni prvek na prvni prvek seznamu
+     */
+    void moveToFirst() {
+        current = null;
+    }
+
+    /**
+     * Vraci true, pokud existuje nasledujici prvek seznamu
+     * @return true, pokud existuje nasledujici prvek seznamu
+     */
+    boolean hasNext() {
+        if (current == null) {
+            if (list.first != null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        if (current.next != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Doplnime metodu, ktera odebere znak ze seznamu
+     * @throws Exception pokud neni co odstranovat
+     */
+    void remove() throws Exception {
+        if (list.first == null) { //nemame co odstranit
+            throw new Exception();
+        }
+        if (current == null) { //odstranujeme prvni prvek
+            list.first = list.first.next;
+        }
+        else if (current.next == null) { // nase ukazovatko je na uplnem konci, tudiz neni co odstranit
+            throw  new Exception();
+        }
+        else { //vse je v poradku, nenastava zadna s predchozich moznosti
+            current.next = current.next.next;
+        }
+        printList(list);
+    }
+}
+
+
